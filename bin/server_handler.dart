@@ -3,6 +3,11 @@ import 'package:shelf_router/shelf_router.dart';
 
 class ServerHandler {
   Handler get handler {
+    final router = Router ();
 
+    router.get('/', (Request request){
+      return Response(200, body: 'Primeira Rota');
+    });
+    return router;
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:shelf/shelf.dart';
 import'package:shelf/shelf_io.dart' as shelf_io;
@@ -18,11 +17,25 @@ void main(List<String> arguments) async{
   });
 
 
+  final pipeline = Pipeline()
+  .addMiddleware(logRequests())
+  .addHandler(app);
 
-  final server = await shelf_io.serve(app, '0.0.0.0', 4141);
+  final server = await shelf_io.serve(pipeline, '0.0.0.0', 4140);
   print('server online: port ${server.port}');
 }
     
+Middleware addJsonTye(){
+  return(handle){
+    return(request) async{
+      final Response = await handle(request);
+      return handle(request);
+    };
+  };
+}
+
+
+
 final json = '''
 {
   'message':'tudo certo aqui'
